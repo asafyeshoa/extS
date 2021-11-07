@@ -1,5 +1,19 @@
 <template>
+
+<div>
+
+  <v-img
+        @mouseover="isHover = true"
+        @mouseout="isHover = null"
+      max-height="150"
+      max-width="100"
+      :src="pictureHover"
+  ></v-img>
+
+  <transition name="fade">
   <v-card
+      @click="isHover = null"
+      v-show="isHover"
       :loading="loading"
       class="mx-auto my-12"
       max-width="374"
@@ -14,67 +28,53 @@
 
     <v-img
         height="250"
-        src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+        :src=displayPhoto
     ></v-img>
 
-    <v-card-title>Cafe Badilico</v-card-title>
-
     <v-card-text>
-      <v-row
-          align="center"
-          class="mx-0"
-      >
-        <v-rating
-            :value="4.5"
-            color="amber"
-            dense
-            half-increments
-            readonly
-            size="14"
-        ></v-rating>
+      <div>
+        <v-list-item-icon class="iconHolder" >
+          <v-icon>mdi-send</v-icon>
+        </v-list-item-icon>
 
-        <div class="grey--text ms-4">
-          4.5 (413)
-        </div>
-      </v-row>
+        <v-list-item-icon class="iconHolder" >
+          <v-icon>+</v-icon>
+        </v-list-item-icon>
 
-      <div class="my-4 text-subtitle-1">
-        $ • Italian, Cafe
+        <v-list-item-icon class="iconHolder" >
+          <v-btn
+              class="ma-2"
+              text
+              icon
+              color="red lighten-2"
+          >
+            <v-icon>mdi-thumb-down</v-icon>
+          </v-btn>
+        </v-list-item-icon>
+        <v-list-item-icon class="iconHolder" >
+          <v-btn
+              class="ma-2"
+              text
+              icon
+              color="blue lighten-2"
+          >
+            <v-icon>mdi-thumb-up</v-icon>
+          </v-btn>
+        </v-list-item-icon>
       </div>
-
-      <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>
+      <div>
+        <p>Match 98% 18+</p>
+      </div>
+      <div>
+        <p>Well know soundtrack * Action * 2008</p>
+      </div>
     </v-card-text>
 
-    <v-divider class="mx-4"></v-divider>
 
-    <v-card-title>Tonight's availability</v-card-title>
-
-    <v-card-text>
-      <v-chip-group
-          v-model="selection"
-          active-class="deep-purple accent-4 white--text"
-          column
-      >
-        <v-chip>5:30PM</v-chip>
-
-        <v-chip>7:30PM</v-chip>
-
-        <v-chip>8:00PM</v-chip>
-
-        <v-chip>9:00PM</v-chip>
-      </v-chip-group>
-    </v-card-text>
-
-    <v-card-actions>
-      <v-btn
-          color="deep-purple lighten-2"
-          text
-          @click="reserve"
-      >
-        Reserve
-      </v-btn>
-    </v-card-actions>
   </v-card>
+  </transition>
+</div>
+
 </template>
 
 <script>
@@ -83,6 +83,11 @@ export default {
   data: () => ({
     loading: false,
     selection: 1,
+    displayPhoto: require("../assets/neeson_b.jpg"),
+    photoStatic: require("../assets/3565.jpg"),
+    videoCard:require("../assets/1.png"),
+    isHover: null
+
   }),
 
   methods: {
@@ -92,5 +97,36 @@ export default {
       setTimeout(() => (this.loading = false), 2000)
     },
   },
+  computed: {
+    pictureHover () {
+      if (this.hover === true) {
+        return this.videoCard
+      } else {
+        return this.photoStatic
+      }
+    }
+  }
 }
 </script>
+
+<style scoped >
+
+.iconHolder {
+  margin: 0;
+  padding: 0;
+}
+
+
+.fade-enter-active {
+  transition: all .3s ease;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+
+</style>
+
+
+
+
